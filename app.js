@@ -29,36 +29,9 @@ app.engine('.html',require('ejs').__express);
 app.get('/',function(req,res){
 	res.render('index');
 });
-app.get('/home',function(req,res){
-	if(req.session.user){
-		res.render('home');
-	}
-	else{
-		req.session.error="请登录";
-		res.redirect('login');
-	}
-});
-app.get('/login',function(req,res){
-	res.render('login');
-});
-app.post('/login',function(req,res){
-	var user={
-		username:'admin',
-		password:'admin'
-	}
-	if(req.body.username==user.username&&req.body.password==user.password){
-		req.session.user=user;
-		res.sendStatus(200);
-	}else{
-		req.session.error="用户名或密码不正确";
-		res.sendStatus(404);
-	}
-});
-app.get('/logout',function(req,res){
-	req.session.user=null;
-	req.session.error=null;
-	res.render('index');
-});
+require('./route/login')(app);
+require('./route/home')(app);
+require('./route/logout')(app);
 app.listen(3000,function(){
-	console.log('runInPort3000!!');
+	console.log('runInPort3000!');
 });
