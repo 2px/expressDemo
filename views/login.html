@@ -8,6 +8,7 @@
     <script src="http://ehuodi.com/ehuodi/js/libs/jquery/1.8/jquery.min.js"></script>
 	<div style="height:300px;width:350px;margin:100px auto;margin-left:auto;border:solid 1px;background: rgb(246, 246, 253);">
    	 	<div style="width:200px;margin:auto;margin-top:50px;">
+   	 	<%- message %>
     	<h1>用户登录</h1>
 	        <form action="#" role="form" method="post">
 	            <input id="username" type="text" name="username" style="margin: 20px 0px;">
@@ -21,14 +22,23 @@
 	<script>
 		function login(){
 			var username=$('#username').val();
-			console.log(username);
+			var password=$('#password').val();
 			var data={
-				'username':username
+				'username':username,
+				'password':password
 			};
 			$.ajax({
-				url:'/login',
+				url:'login',
 				type:'post',
-				data:data
+				data:data,
+				success:function(data,status){
+					if(status=='success')
+						location.href='home';
+				},
+				error:function(data,status,e){
+					if(status=='error')
+						location.href='login';
+				}
 			});
 		}
 	</script>
